@@ -9,6 +9,7 @@ import ReformedTime from "./ReformedComponents/ReformedTime";
 import ReformedSwitch from "./ReformedComponents/ReformedSwitch";
 import ReformedText from "./ReformedComponents/ReformedText";
 import ReformedSlider from "./ReformedComponents/ReformedSlider";
+import ReformedDateTime from "./ReformedComponents/ReformedDateTime";
 
 export const ReformedContext = React.createContext();
 
@@ -29,6 +30,10 @@ const Reformed = ({ data, setData, dataValidation, flex, style }) => {
     switch (type) {
       case "date": {
         comp = ReformedDate;
+        break;
+      }
+      case "datetime": {
+        comp = ReformedDateTime;
         break;
       }
       case "time": {
@@ -68,7 +73,7 @@ const Reformed = ({ data, setData, dataValidation, flex, style }) => {
           if (!currValidation) return null;
           let sentence = currValidation.label || startcase(key);
           let InputComponent = inputType(currValidation.type);
-          // console.log(currValidation.hiddenTrigger);
+
           if (
             currValidation.hiddenTrigger &&
             !data[currValidation.hiddenTrigger]

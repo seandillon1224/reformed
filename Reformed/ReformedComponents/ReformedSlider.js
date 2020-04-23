@@ -2,7 +2,12 @@ import React, { useCallback, useContext } from "react";
 import { ReformedContext } from "../Reformed";
 import { Typography, Slider } from "@material-ui/core";
 
-const ReformedSlider = ({ label, value, input }) => {
+const ReformedSlider = ({
+  label,
+  val,
+  input,
+  config = { step: 1, max: 100, min: 0 }
+}) => {
   const { data, setData } = useContext(ReformedContext);
   const handleChange = useCallback(
     (_, newVal) => setData({ ...data, [input]: newVal }),
@@ -18,12 +23,12 @@ const ReformedSlider = ({ label, value, input }) => {
         id="continuous-slider"
         name={input}
         label={label}
-        value={value}
+        value={val}
         onChange={handleChange}
         // marks
-        min={0}
-        max={180}
-        step={15}
+        min={config.min}
+        max={config.max}
+        step={config.step}
       />
     </div>
   );

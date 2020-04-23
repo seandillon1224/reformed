@@ -1,9 +1,10 @@
 {
   "name": "reformed-material",
-  "version": "1.0.6",
+  "version": "1.0.18",
   "description": "Material-UI Based Form Helper",
   "main": "./build",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "webpack"
   },
   "author": "",

@@ -23,33 +23,47 @@ const ReformedSelect = ({ label, input, val, config }) => {
   useEffect(() => {
     if (val === "Other" && !alt) setAlt(true);
   }, [val, alt]);
-  const options = config.noOther
-    ? config.options
-    : [...config.options, "Other"];
-  // console.log(config.tooltips && config.tooltips.map(x => console.log(x)));
-  // if (config.tooltips)
-  // console.log(config.tooltips.filter(x => val.includes(x.option)));
-  // console.log(
-  //   config.tooltips &&
-  //     val.length &&
-  //     config.tooltips.filter(x => val.findIndex(x.option) !== -1)
-  // );
+
+  useEffect(() => {
+    if (config.isFilterFor) {
+      setData({ ...data, [config.isFilterFor]: "" });
+    }
+  }, [val]);
+
+  let fullOptions = config.filter
+    ? config.options[data[config.filter]]
+    : config.options;
+  const options = config.noOther ? fullOptions : [...fullOptions, "Other"];
+
+  const allOptions = () =>
+    config.selectObject
+      ? options.map(option => (
+          <MenuItem
+            key={option[config.selectObject.key]}
+            value={option[config.selectObject.value]}
+          >
+            {option[config.selectObject.show]}
+          </MenuItem>
+        ))
+      : options.map(option => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ));
+
   return (
     <>
       {!alt ? (
         <FormControl className="textFieldWrap">
           <InputLabel>{label}</InputLabel>
           <Select
+            variant={config.variant || "standard"}
             multiple={config.multiple}
             name={input}
             value={val}
             onChange={handleChange}
           >
-            {options.map(option => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
+            {allOptions()}
           </Select>
           {config.tooltips &&
           config.tooltips.filter(x => val.includes(x.option)).length
@@ -68,6 +82,7 @@ const ReformedSelect = ({ label, input, val, config }) => {
       ) : (
         <div className="textFieldWrap">
           <TextField
+            variant={config.variant || "standard"}
             style={{ width: "90%" }}
             multiline={true}
             key={input}

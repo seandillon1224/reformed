@@ -13,6 +13,7 @@ const ReformedText = ({ label, input, val, config }) => {
       inputProps={{
         maxLength: config.maxlength || null
       }}
+      variant={config.variant || "standard"}
       multiline={true}
       key={input}
       type="number"
